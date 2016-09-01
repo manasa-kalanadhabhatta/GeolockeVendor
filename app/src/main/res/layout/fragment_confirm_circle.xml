@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ConfirmCircleFragment"
+                android:background="@color/accent_material_dark">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Geofence?"
+        android:id="@+id/textView"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:id="@+id/confirmButton"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentEnd="true"
+        android:onClick="createCircularGeofence"
+        android:background="@color/accent_material_light"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
+
+</RelativeLayout>

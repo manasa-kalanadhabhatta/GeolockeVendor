@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GeolockeVendor</string>
+    <string name="title_activity_geolocke_vendor_test">VendorTest</string>
 </resources>

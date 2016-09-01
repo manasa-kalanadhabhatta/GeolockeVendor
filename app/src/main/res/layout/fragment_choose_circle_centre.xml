@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ChooseCircleCentreFragment"
+                android:background="@color/accent_material_dark">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Drag the marker to the centre of the required geofence."
+        android:id="@+id/textView"
+        android:textSize="18sp"
+        android:layout_margin="10dp"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:id="@+id/centreButton"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentEnd="true"
+        android:onClick="getCentreLatLng"
+        android:background="@color/accent_material_light"
+        android:layout_margin="10dp"/>
+</RelativeLayout>
