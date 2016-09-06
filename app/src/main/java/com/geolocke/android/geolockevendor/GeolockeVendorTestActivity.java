@@ -17,6 +17,7 @@ import com.geolocke.android.vendorsdk.beans.Geofence;
 import com.geolocke.android.vendorsdk.beans.GeofenceCircle;
 import com.geolocke.android.vendorsdk.beans.GeofencePolyline;
 import com.geolocke.android.vendorsdk.contentprovider.GeofencesContract;
+import com.geolocke.android.vendorsdk.utils.GeodesicUtilities;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -155,7 +156,7 @@ public class GeolockeVendorTestActivity extends FragmentActivity implements OnMa
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragmentLayout,fragment).commit();
 
-        double radius = 1000 * haversine(mGeofenceCircle.getCentreLatitude(), mGeofenceCircle.getCentreLongitude(), marker.getPosition().latitude, marker.getPosition().longitude);
+        double radius = 1000 * GeodesicUtilities.getHaversineDistance(mGeofenceCircle.getCentreLatitude(), mGeofenceCircle.getCentreLongitude(), marker.getPosition().latitude, marker.getPosition().longitude);
         mGeofenceCircle.setRadius(radius);
         mCircle = mMap.addCircle(new CircleOptions().center(new LatLng(mGeofenceCircle.getCentreLatitude(), mGeofenceCircle.getCentreLongitude())).radius(radius).strokeWidth(4));
 
@@ -282,14 +283,4 @@ public class GeolockeVendorTestActivity extends FragmentActivity implements OnMa
         Toast.makeText(getApplicationContext(), "Added!", Toast.LENGTH_LONG).show();
     }
 
-    public double haversine(double lat1, double lon1, double lat2, double lon2) {
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
-
-        double a = Math.pow(Math.sin(dLat / 2),2) + Math.pow(Math.sin(dLon / 2),2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        return 6372.8 * c;
-    }
 }

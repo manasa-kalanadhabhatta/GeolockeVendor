@@ -38,13 +38,7 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:authorities="com.geolocke.android.vendorsdk.geofences.provider"
-            android:name="com.geolocke.android.vendorsdk.contentprovider.GeofencesContentProvider"
-            android:label="Geofences"
-            android:exported="true"
-            android:syncable="true"
-            />
+
     </application>
 
 </manifest>
