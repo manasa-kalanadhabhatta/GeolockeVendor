@@ -29,6 +29,14 @@
             android:value="@string/google_maps_key"/>
 
         <activity
+            android:name=".CircularGeofenceTestActivity"
+            android:label="@string/title_activity_circular_geofence_test">
+        </activity>
+        <activity
+            android:name=".PolygonalGeofenceTestActivity"
+            android:label="@string/title_activity_polygonal_geofence_test">
+        </activity>
+        <activity
             android:name=".GeolockeVendorTestActivity"
             android:label="@string/title_activity_geolocke_vendor_test">
             <intent-filter>
@@ -37,8 +45,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Drag the marker to the centre of the required geofence."
+        android:text="Tap to add marker indicating the centre of the required geofence."
         android:id="@+id/textView"
         android:textSize="18sp"
         android:layout_margin="10dp"/>
