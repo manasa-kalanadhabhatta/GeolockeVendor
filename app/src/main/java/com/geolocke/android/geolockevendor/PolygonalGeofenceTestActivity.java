@@ -124,12 +124,17 @@ public class PolygonalGeofenceTestActivity extends FragmentActivity implements O
     }
 
     public void createPolygonalGeofence(View pView){
-        mPolygon = new Polygon(mPolylineArrayList);
-        mGeofence = new Geofence(mPolygon);
+        try{
+            mPolygon = new Polygon(mPolylineArrayList);
+            mGeofence = new Geofence(mPolygon);
 
-        Fragment fragment = new GeofenceOptionsFragment();
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.fragmentLayout,fragment).commit();
+            Fragment fragment = new GeofenceOptionsFragment();
+            mFragmentTransaction = mFragmentManager.beginTransaction();
+            mFragmentTransaction.replace(R.id.fragmentLayout,fragment).commit();
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),e.getMessage().toString(),Toast.LENGTH_LONG).show();
+        }
     }
 
     public void saveGeofence(View pView){
