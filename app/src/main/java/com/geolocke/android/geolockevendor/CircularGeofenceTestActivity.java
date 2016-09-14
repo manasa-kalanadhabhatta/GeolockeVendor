@@ -57,6 +57,7 @@ public class CircularGeofenceTestActivity extends FragmentActivity implements On
         mFragmentTransaction.add(R.id.fragmentLayout, mFragment).commit();
 
         mMarkerArrayList = new ArrayList<>();
+        mCurMarkerIndex = -1;
     }
 
     @Override
@@ -74,25 +75,39 @@ public class CircularGeofenceTestActivity extends FragmentActivity implements On
     }
 
     public void getCentreLatLng (View pView){
-        Marker centreMarker = mMarkerArrayList.get(mCurMarkerIndex);
-        mCentre = centreMarker.getPosition();
-        centreMarker.setDraggable(false);
+        if(mCurMarkerIndex == 0) {
+            Marker centreMarker = mMarkerArrayList.get(mCurMarkerIndex);
+            mCentre = centreMarker.getPosition();
+            centreMarker.setDraggable(false);
 
-        Fragment fragment = new ChooseCircleBoundaryFragment();
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.fragmentLayout,fragment).commit();
+            Fragment fragment = new ChooseCircleBoundaryFragment();
+            mFragmentTransaction = mFragmentManager.beginTransaction();
+            mFragmentTransaction.replace(R.id.fragmentLayout, fragment).commit();
+        } else{
+            Toast.makeText(getApplicationContext(),"Select one point and try again.", Toast.LENGTH_LONG).show();
+            mMarkerArrayList = new ArrayList<>();
+            mCurMarkerIndex = -1;
+        }
     }
 
     public void getBoundaryLatLng (View pView){
-        Marker boundaryMarker = mMarkerArrayList.get(mCurMarkerIndex);
-        boundaryMarker.setDraggable(false);
-        mRadius = 1000 * GeodesicUtilities.getHaversineDistance(mCentre.latitude,mCentre.longitude,boundaryMarker.getPosition().latitude,boundaryMarker.getPosition().longitude);
+        if(mCurMarkerIndex==1) {
+            Marker boundaryMarker = mMarkerArrayList.get(mCurMarkerIndex);
+            boundaryMarker.setDraggable(false);
+            mRadius = 1000 * GeodesicUtilities.getHaversineDistance(mCentre.latitude, mCentre.longitude, boundaryMarker.getPosition().latitude, boundaryMarker.getPosition().longitude);
 
-        Fragment fragment = new ConfirmCircleFragment();
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.fragmentLayout,fragment).commit();
+            Fragment fragment = new ConfirmCircleFragment();
+            mFragmentTransaction = mFragmentManager.beginTransaction();
+            mFragmentTransaction.replace(R.id.fragmentLayout, fragment).commit();
 
-        mMap.addCircle(new CircleOptions().center(new LatLng(mCentre.latitude, mCentre.longitude)).radius(mRadius).strokeWidth(4));
+            mMap.addCircle(new CircleOptions().center(new LatLng(mCentre.latitude, mCentre.longitude)).radius(mRadius).strokeWidth(4));
+        } else{
+            Toast.makeText(getApplicationContext(),"Select one point and try again.", Toast.LENGTH_LONG).show();
+            for(int i=mMarkerArrayList.size()-1; i>0; i--){
+                mMarkerArrayList.remove(i);
+            }
+            mCurMarkerIndex=0;
+        }
 
     }
 

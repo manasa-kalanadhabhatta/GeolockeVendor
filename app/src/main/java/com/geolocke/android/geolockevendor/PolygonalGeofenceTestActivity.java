@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PolygonalGeofenceTestActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -32,6 +33,7 @@ public class PolygonalGeofenceTestActivity extends FragmentActivity implements O
 
     private ArrayList<Marker> mMarkerArrayList;
     private int mCurMarkerIndex;
+    private int mPreviousIndex;
 
     private ArrayList<Polyline> mPolylineArrayList;
     private LatLng mPointOne;
@@ -58,6 +60,8 @@ public class PolygonalGeofenceTestActivity extends FragmentActivity implements O
 
         mMarkerArrayList = new ArrayList<>();
         mPolylineArrayList = new ArrayList<>();
+        mPreviousIndex = -1;
+        mCurMarkerIndex = -1;
     }
 
     @Override
@@ -70,36 +74,56 @@ public class PolygonalGeofenceTestActivity extends FragmentActivity implements O
                 Marker marker = mMap.addMarker(new MarkerOptions().position(pLatLng).draggable(true));
                 mMarkerArrayList.add(marker);
                 mCurMarkerIndex = mMarkerArrayList.indexOf(marker);
+                Log.d("Info:",mCurMarkerIndex+"");
             }
         });
     }
 
     public void getFirstPoint(View pView){
-        Marker pointMarker = mMarkerArrayList.get(mCurMarkerIndex);
-        mPointOne = pointMarker.getPosition();
-        pointMarker.setDraggable(false);
+        if(mCurMarkerIndex == mPreviousIndex+1) {
+            Marker pointMarker = mMarkerArrayList.get(mCurMarkerIndex);
+            mPointOne = pointMarker.getPosition();
+            pointMarker.setDraggable(false);
 
-        Fragment fragment = new ChoosePolygonNextPointFragment();
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.fragmentLayout, fragment).commit();
+            mPreviousIndex = mCurMarkerIndex;
+            Log.d("Info:",mPreviousIndex+"");
+
+            Fragment fragment = new ChoosePolygonNextPointFragment();
+            mFragmentTransaction = mFragmentManager.beginTransaction();
+            mFragmentTransaction.replace(R.id.fragmentLayout, fragment).commit();
+        }else{
+            Toast.makeText(getApplicationContext(),"Select one point and try again.", Toast.LENGTH_LONG).show();
+            mMarkerArrayList = new ArrayList<>();
+            mCurMarkerIndex = -1;
+        }
     }
 
     public void getNextPoint(View pView){
-        Marker pointMarker = mMarkerArrayList.get(mCurMarkerIndex);
-        mPointTwo = pointMarker.getPosition();
-        pointMarker.setDraggable(false);
+        if(mCurMarkerIndex == mPreviousIndex+1) {
+            Marker pointMarker = mMarkerArrayList.get(mCurMarkerIndex);
+            mPointTwo = pointMarker.getPosition();
+            pointMarker.setDraggable(false);
 
-        Polyline polyline = new Polyline(mPointOne.latitude, mPointOne.longitude, mPointTwo.latitude, mPointTwo.longitude);
-        mPolylineArrayList.add(polyline);
+            mPreviousIndex = mCurMarkerIndex;
 
-        mMap.addPolyline(new PolylineOptions().add(mPointOne, mPointTwo).width(5).color(Color.RED).geodesic(true));
+            Polyline polyline = new Polyline(mPointOne.latitude, mPointOne.longitude, mPointTwo.latitude, mPointTwo.longitude);
+            mPolylineArrayList.add(polyline);
 
-        Fragment fragment = new ChoosePolygonNextPointFragment();
-        Log.i("Changed:","fragment_choose_next");
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.fragmentLayout, fragment).commit();
+            mMap.addPolyline(new PolylineOptions().add(mPointOne, mPointTwo).width(5).color(Color.RED).geodesic(true));
 
-        mPointOne = new LatLng(mPointTwo.latitude, mPointTwo.longitude);
+            Fragment fragment = new ChoosePolygonNextPointFragment();
+            Log.i("Changed:", "fragment_choose_next");
+            mFragmentTransaction = mFragmentManager.beginTransaction();
+            mFragmentTransaction.replace(R.id.fragmentLayout, fragment).commit();
+
+            mPointOne = new LatLng(mPointTwo.latitude, mPointTwo.longitude);
+        } else {
+            Toast.makeText(getApplicationContext(),"Select one point and try again.", Toast.LENGTH_LONG).show();
+            for(int i=mMarkerArrayList.size()-1; i>mPreviousIndex; i--){
+                mMarkerArrayList.remove(i);
+            }
+            mCurMarkerIndex=mMarkerArrayList.size()-1;
+        }
     }
 
     public void getLastPoint(View pView){
