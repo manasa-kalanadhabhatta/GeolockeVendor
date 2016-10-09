@@ -1,5 +1,9 @@
 package com.geolocke.android.vendorsdk.beans;
 
+import android.content.ContentValues;
+
+import com.geolocke.android.vendorsdk.contentprovider.GeofencesDbHelper;
+
 import java.util.ArrayList;
 
 /**
@@ -11,7 +15,7 @@ public class Polygon extends Shape{
     public Polygon(ArrayList<Polyline> pEdgeArrayList)throws IllegalArgumentException{
         super();
         if(pEdgeArrayList.size()>=3) {
-            mType = TYPE_POLYGON;
+            mShapeType = SHAPE_TYPE_POLYGON;
             mEdgeArrayList = pEdgeArrayList;
         } else{
             throw new IllegalArgumentException("Polygon must have at least three edges.");
@@ -20,5 +24,12 @@ public class Polygon extends Shape{
 
     public ArrayList<Polyline> getEdgeArrayList() {
         return mEdgeArrayList;
+    }
+
+    public ContentValues getContentValues(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(GeofencesDbHelper.POLYGONS_COL_POLYGON_TYPE, this.getType());
+        //contentValues.put(GeofencesDbHelper.POLYGONS_COL_GEOFENCE_ID, this.getGeofenceId());
+        return contentValues;
     }
 }

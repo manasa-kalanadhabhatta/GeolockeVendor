@@ -1,11 +1,13 @@
 package com.geolocke.android.geolockevendor;
 
+import android.content.ContentValues;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -13,6 +15,8 @@ import android.widget.Toast;
 import com.geolocke.android.vendorsdk.beans.Geofence;
 import com.geolocke.android.vendorsdk.beans.Polygon;
 import com.geolocke.android.vendorsdk.beans.Polyline;
+import com.geolocke.android.vendorsdk.contentprovider.GeofencesContract;
+import com.geolocke.android.vendorsdk.contentprovider.GeofencesDbHelper;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -22,7 +26,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PolygonalGeofenceTestActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -162,7 +165,21 @@ public class PolygonalGeofenceTestActivity extends FragmentActivity implements O
     }
 
     public void saveGeofence(View pView){
-        Toast.makeText(getApplicationContext(), "save", Toast.LENGTH_SHORT).show();
-        // TODO: 09-09-2016 save geofence
+        Uri uri;
+        uri = getContentResolver().insert(GeofencesContract.GEOFENCES_CONTENT_URI, mGeofence.getContentValues());
+        Log.i("info A:", uri.getLastPathSegment());
+        ContentValues contentValues = mPolygon.getContentValues();
+        contentValues.put(GeofencesDbHelper.POLYGONS_COL_GEOFENCE_ID, uri.getLastPathSegment());
+        uri = getContentResolver().insert(GeofencesContract.POLYGONS_CONTENT_URI, contentValues);
+        Log.i("info B:", uri.getLastPathSegment());
+        long id = Long.valueOf(uri.getLastPathSegment());
+        for(int i= 0; i<mPolylineArrayList.size(); i++){
+            contentValues = mPolylineArrayList.get(i).getContentValues();
+            contentValues.put(GeofencesDbHelper.POLYLINES_COL_POLYGON_ID, id);
+            uri = getContentResolver().insert(GeofencesContract.POLYLINES_CONTENT_URI, contentValues);
+            Log.i("info C"+i, uri.getLastPathSegment());
+        }
+
+        Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
     }
 }

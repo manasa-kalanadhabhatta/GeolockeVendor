@@ -1,15 +1,20 @@
 package com.geolocke.android.geolockevendor;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.geolocke.android.vendorsdk.beans.Circle;
 import com.geolocke.android.vendorsdk.beans.Geofence;
+import com.geolocke.android.vendorsdk.contentprovider.GeofencesContract;
+import com.geolocke.android.vendorsdk.contentprovider.GeofencesDbHelper;
 import com.geolocke.android.vendorsdk.utils.GeodesicUtilities;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -121,7 +126,13 @@ public class CircularGeofenceTestActivity extends FragmentActivity implements On
     }
 
     public void saveGeofence(View pView){
-        Toast.makeText(getApplicationContext(), "save", Toast.LENGTH_SHORT).show();
-        // TODO: 09-09-2016 save geofence
+        Uri uri;
+        uri = getContentResolver().insert(GeofencesContract.GEOFENCES_CONTENT_URI, mGeofence.getContentValues());
+        Log.i("info A:", uri.getLastPathSegment());
+        ContentValues contentValues = mCircle.getContentValues();
+        contentValues.put(GeofencesDbHelper.CIRCLES_COL_GEOFENCE_ID, uri.getLastPathSegment());
+        uri = getContentResolver().insert(GeofencesContract.CIRCLES_CONTENT_URI, contentValues);
+        Log.i("info B:", uri.getLastPathSegment());
+        Toast.makeText(getApplicationContext(), "Saved!", Toast.LENGTH_SHORT).show();
     }
 }

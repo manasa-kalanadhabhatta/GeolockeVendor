@@ -1,5 +1,9 @@
 package com.geolocke.android.vendorsdk.beans;
 
+import android.content.ContentValues;
+
+import com.geolocke.android.vendorsdk.contentprovider.GeofencesDbHelper;
+
 import java.util.ArrayList;
 
 /**
@@ -13,14 +17,19 @@ public class Geofence {
 
     public Geofence(Shape pFence){
         mGeofenceId = System.currentTimeMillis();
-        mType = pFence.getType();
+        pFence.setGeofenceId(mGeofenceId);
+        pFence.setType(Shape.TYPE_FENCE);
+        mType = pFence.getShapeType();
         mFence = pFence;
         mHoleArrayList = new ArrayList<Shape>();
     }
 
     public Geofence addHole(Shape pHole){
-        if(pHole.isInside(mFence))
+        if(pHole.isInside(mFence)) {
+            pHole.setGeofenceId(mGeofenceId);
+            pHole.setType(Shape.TYPE_HOLE);
             mHoleArrayList.add(pHole);
+        }
         // TODO: 08-09-2016 else throw exception?
         return this;
     }
@@ -39,5 +48,16 @@ public class Geofence {
 
     public ArrayList<Shape> getHoleArrayList() {
         return mHoleArrayList;
+    }
+
+    public boolean isComplex(){
+        return mHoleArrayList.isEmpty();
+    }
+
+    public ContentValues getContentValues(){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(GeofencesDbHelper.GEOFENCES_COL_FENCE_TYPE, this.getType());
+        contentValues.put(GeofencesDbHelper.GEOFENCES_COL_IS_COMPLEX, this.isComplex());
+        return contentValues;
     }
 }

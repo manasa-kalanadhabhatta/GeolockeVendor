@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import static com.geolocke.android.vendorsdk.contentprovider.GeofencesContract.AUTHORITY;
 
@@ -28,16 +29,22 @@ public class GeofencesContentProvider extends ContentProvider {
     public static final int GEOFENCES_PATH_FOR_ID_TOKEN = 200;
 
     //geofence circles
-    public static final String GEOFENCECIRCLES_PATH = "geofencecircles";
-    public static final int GEOFENCECIRCLES_PATH_TOKEN = 300;
-    public static final String GEOFENCECIRCLES_PATH_FOR_ID = "geofencecircles/*";
-    public static final int GEOFENCECIRCLES_PATH_FOR_ID_TOKEN = 400;
+    public static final String CIRCLES_PATH = "circles";
+    public static final int CIRCLES_PATH_TOKEN = 300;
+    public static final String CIRCLES_PATH_FOR_ID = "circles/*";
+    public static final int CIRCLES_PATH_FOR_ID_TOKEN = 400;
 
     //geofence polylines
-    public static final String GEOFENCEPOLYLINES_PATH = "geofencepolylines";
-    public static final int GEOFENCEPOLYLINES_PATH_TOKEN = 500;
-    public static final String GEOFENCEPOLYLINES_PATH_FOR_ID = "geofencepolylines/*";
-    public static final int GEOFENCEPOLYLINES_PATH_FOR_ID_TOKEN = 600;
+    public static final String POLYLINES_PATH = "polylines";
+    public static final int POLYLINES_PATH_TOKEN = 500;
+    public static final String POLYLINES_PATH_FOR_ID = "polylines/*";
+    public static final int POLYLINES_PATH_FOR_ID_TOKEN = 600;
+
+    //geofence polygons
+    public static final String POLYGONS_PATH = "polygons";
+    public static final int POLYGONS_PATH_TOKEN = 700;
+    public static final String POLYGONS_PATH_FOR_ID = "polygons/*";
+    public static final int POLYGONS_PATH_FOR_ID_TOKEN = 800;
 
     // Uri Matcher for the content provider
     private static UriMatcher buildUriMatcher() {
@@ -47,11 +54,14 @@ public class GeofencesContentProvider extends ContentProvider {
         matcher.addURI(authority, GEOFENCES_PATH, GEOFENCES_PATH_TOKEN);
         matcher.addURI(authority, GEOFENCES_PATH_FOR_ID, GEOFENCES_PATH_FOR_ID_TOKEN);
 
-        matcher.addURI(authority, GEOFENCECIRCLES_PATH, GEOFENCECIRCLES_PATH_TOKEN);
-        matcher.addURI(authority, GEOFENCECIRCLES_PATH_FOR_ID, GEOFENCECIRCLES_PATH_FOR_ID_TOKEN);
+        matcher.addURI(authority, CIRCLES_PATH, CIRCLES_PATH_TOKEN);
+        matcher.addURI(authority, CIRCLES_PATH_FOR_ID, CIRCLES_PATH_FOR_ID_TOKEN);
 
-        matcher.addURI(authority, GEOFENCEPOLYLINES_PATH, GEOFENCEPOLYLINES_PATH_TOKEN);
-        matcher.addURI(authority, GEOFENCEPOLYLINES_PATH_FOR_ID, GEOFENCEPOLYLINES_PATH_FOR_ID_TOKEN);
+        matcher.addURI(authority, POLYLINES_PATH, POLYLINES_PATH_TOKEN);
+        matcher.addURI(authority, POLYLINES_PATH_FOR_ID, POLYLINES_PATH_FOR_ID_TOKEN);
+
+        matcher.addURI(authority, POLYGONS_PATH, POLYGONS_PATH_TOKEN);
+        matcher.addURI(authority, POLYGONS_PATH_FOR_ID, POLYGONS_PATH_FOR_ID_TOKEN);
 
         return matcher;
     }
@@ -83,28 +93,40 @@ public class GeofencesContentProvider extends ContentProvider {
                 builder.appendWhere(GeofencesDbHelper.GEOFENCES_COL_ID + "=" + geofenceId);
                 return builder.query(db, projection, selection,selectionArgs, null, null, sortOrder);
             }
-            case GEOFENCECIRCLES_PATH_TOKEN: {
+            case CIRCLES_PATH_TOKEN: {
                 SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-                builder.setTables(GeofencesDbHelper.GEOFENCECIRCLES_TABLE_NAME);
+                builder.setTables(GeofencesDbHelper.CIRCLES_TABLE_NAME);
                 return builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
             }
-            case GEOFENCECIRCLES_PATH_FOR_ID_TOKEN: {
+            case CIRCLES_PATH_FOR_ID_TOKEN: {
                 int geofenceId = (int) ContentUris.parseId(uri);
                 SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-                builder.setTables(GeofencesDbHelper.GEOFENCECIRCLES_TABLE_NAME);
-                builder.appendWhere(GeofencesDbHelper.GEOFENCECIRCLES_COL_ID + "=" + geofenceId);
+                builder.setTables(GeofencesDbHelper.CIRCLES_TABLE_NAME);
+                builder.appendWhere(GeofencesDbHelper.CIRCLES_COL_ID + "=" + geofenceId);
                 return builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
             }
-            case GEOFENCEPOLYLINES_PATH_TOKEN: {
+            case POLYLINES_PATH_TOKEN: {
                 SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-                builder.setTables(GeofencesDbHelper.GEOFENCEPOLYLINES_TABLE_NAME);
+                builder.setTables(GeofencesDbHelper.POLYLINES_TABLE_NAME);
                 return builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
             }
-            case GEOFENCEPOLYLINES_PATH_FOR_ID_TOKEN: {
+            case POLYLINES_PATH_FOR_ID_TOKEN: {
                 int geofenceId = (int) ContentUris.parseId(uri);
                 SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
-                builder.setTables(GeofencesDbHelper.GEOFENCEPOLYLINES_TABLE_NAME);
-                builder.appendWhere(GeofencesDbHelper.GEOFENCEPOLYLINES_COL_ID + "=" + geofenceId);
+                builder.setTables(GeofencesDbHelper.POLYLINES_TABLE_NAME);
+                builder.appendWhere(GeofencesDbHelper.POLYLINES_COL_ID + "=" + geofenceId);
+                return builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+            }
+            case POLYGONS_PATH_TOKEN: {
+                SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+                builder.setTables(GeofencesDbHelper.POLYGONS_TABLE_NAME);
+                return builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+            }
+            case POLYGONS_PATH_FOR_ID_TOKEN: {
+                int geofenceId = (int) ContentUris.parseId(uri);
+                SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
+                builder.setTables(GeofencesDbHelper.POLYGONS_TABLE_NAME);
+                builder.appendWhere(GeofencesDbHelper.POLYGONS_COL_ID + "=" + geofenceId);
                 return builder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
             }
 
@@ -122,14 +144,18 @@ public class GeofencesContentProvider extends ContentProvider {
                 return GeofencesContract.GEOFENCES_CONTENT_TYPE_DIR;
             case GEOFENCES_PATH_FOR_ID_TOKEN:
                 return GeofencesContract.GEOFENCES_CONTENT_ITEM_TYPE;
-            case GEOFENCECIRCLES_PATH_TOKEN:
-                return GeofencesContract.GEOFENCECIRCLES_CONTENT_TYPE_DIR;
-            case GEOFENCECIRCLES_PATH_FOR_ID_TOKEN:
-                return GeofencesContract.GEOFENCECIRCLES_CONTENT_ITEM_TYPE;
-            case GEOFENCEPOLYLINES_PATH_TOKEN:
-                return GeofencesContract.GEOFENCEPOLYLINES_CONTENT_TYPE_DIR;
-            case GEOFENCEPOLYLINES_PATH_FOR_ID_TOKEN:
-                return GeofencesContract.GEOFENCEPOLYLINES_CONTENT_ITEM_TYPE;
+            case CIRCLES_PATH_TOKEN:
+                return GeofencesContract.CIRCLES_CONTENT_TYPE_DIR;
+            case CIRCLES_PATH_FOR_ID_TOKEN:
+                return GeofencesContract.CIRCLES_CONTENT_ITEM_TYPE;
+            case POLYLINES_PATH_TOKEN:
+                return GeofencesContract.POLYLINES_CONTENT_TYPE_DIR;
+            case POLYLINES_PATH_FOR_ID_TOKEN:
+                return GeofencesContract.POLYLINES_CONTENT_ITEM_TYPE;
+            case POLYGONS_PATH_TOKEN:
+                return GeofencesContract.POLYGONS_CONTENT_TYPE_DIR;
+            case POLYGONS_PATH_FOR_ID_TOKEN:
+                return GeofencesContract.POLYGONS_CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("URI " + uri + " is not supported.");
         }
@@ -145,19 +171,26 @@ public class GeofencesContentProvider extends ContentProvider {
                 long id = db.insert(GeofencesDbHelper.GEOFENCES_TABLE_NAME, null, values);
                 if (id != -1)
                     getContext().getContentResolver().notifyChange(uri, null);
+                Log.i("info C:", GeofencesContract.GEOFENCES_CONTENT_URI.toString());
                 return GeofencesContract.GEOFENCES_CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
             }
-            case GEOFENCECIRCLES_PATH_TOKEN: {
-                long id = db.insert(GeofencesDbHelper.GEOFENCECIRCLES_TABLE_NAME, null, values);
+            case CIRCLES_PATH_TOKEN: {
+                long id = db.insert(GeofencesDbHelper.CIRCLES_TABLE_NAME, null, values);
                 if (id != -1)
                     getContext().getContentResolver().notifyChange(uri, null);
-                return GeofencesContract.GEOFENCECIRCLES_CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+                return GeofencesContract.CIRCLES_CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
             }
-            case GEOFENCEPOLYLINES_PATH_TOKEN: {
-                long id = db.insert(GeofencesDbHelper.GEOFENCEPOLYLINES_TABLE_NAME, null, values);
+            case POLYLINES_PATH_TOKEN: {
+                long id = db.insert(GeofencesDbHelper.POLYLINES_TABLE_NAME, null, values);
                 if (id != -1)
                     getContext().getContentResolver().notifyChange(uri, null);
-                return GeofencesContract.GEOFENCEPOLYLINES_CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+                return GeofencesContract.POLYLINES_CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+            }
+            case POLYGONS_PATH_TOKEN: {
+                long id = db.insert(GeofencesDbHelper.POLYGONS_TABLE_NAME, null, values);
+                if (id != -1)
+                    getContext().getContentResolver().notifyChange(uri, null);
+                return GeofencesContract.POLYGONS_CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
             }
 
             default: {
@@ -183,25 +216,35 @@ public class GeofencesContentProvider extends ContentProvider {
                     geofenceIdWhereClause += " AND " + selection;
                 rowsDeleted = db.delete(GeofencesDbHelper.GEOFENCES_TABLE_NAME, geofenceIdWhereClause, selectionArgs);
                 break;
-            case (GEOFENCECIRCLES_PATH_TOKEN):
-                geofenceIdWhereClause = GeofencesDbHelper.GEOFENCECIRCLES_COL_ID + "=" + uri.getLastPathSegment();
-                rowsDeleted = db.delete(GeofencesDbHelper.GEOFENCECIRCLES_TABLE_NAME, selection, selectionArgs);
+            case (CIRCLES_PATH_TOKEN):
+                geofenceIdWhereClause = GeofencesDbHelper.CIRCLES_COL_ID + "=" + uri.getLastPathSegment();
+                rowsDeleted = db.delete(GeofencesDbHelper.CIRCLES_TABLE_NAME, selection, selectionArgs);
                 break;
-            case (GEOFENCECIRCLES_PATH_FOR_ID_TOKEN):
-                geofenceIdWhereClause = GeofencesDbHelper.GEOFENCECIRCLES_COL_ID + "=" + uri.getLastPathSegment();
+            case (CIRCLES_PATH_FOR_ID_TOKEN):
+                geofenceIdWhereClause = GeofencesDbHelper.CIRCLES_COL_ID + "=" + uri.getLastPathSegment();
                 if (!TextUtils.isEmpty(selection))
                     geofenceIdWhereClause += " AND " + selection;
-                rowsDeleted = db.delete(GeofencesDbHelper.GEOFENCECIRCLES_TABLE_NAME, geofenceIdWhereClause, selectionArgs);
+                rowsDeleted = db.delete(GeofencesDbHelper.CIRCLES_TABLE_NAME, geofenceIdWhereClause, selectionArgs);
                 break;
-            case (GEOFENCEPOLYLINES_PATH_TOKEN):
-                geofenceIdWhereClause = GeofencesDbHelper.GEOFENCEPOLYLINES_COL_ID + "=" + uri.getLastPathSegment();
-                rowsDeleted = db.delete(GeofencesDbHelper.GEOFENCEPOLYLINES_TABLE_NAME, selection, selectionArgs);
+            case (POLYLINES_PATH_TOKEN):
+                geofenceIdWhereClause = GeofencesDbHelper.POLYLINES_COL_ID + "=" + uri.getLastPathSegment();
+                rowsDeleted = db.delete(GeofencesDbHelper.POLYLINES_TABLE_NAME, selection, selectionArgs);
                 break;
-            case (GEOFENCEPOLYLINES_PATH_FOR_ID_TOKEN):
-                geofenceIdWhereClause = GeofencesDbHelper.GEOFENCEPOLYLINES_COL_ID + "=" + uri.getLastPathSegment();
+            case (POLYLINES_PATH_FOR_ID_TOKEN):
+                geofenceIdWhereClause = GeofencesDbHelper.POLYLINES_COL_ID + "=" + uri.getLastPathSegment();
                 if (!TextUtils.isEmpty(selection))
                     geofenceIdWhereClause += " AND " + selection;
-                rowsDeleted = db.delete(GeofencesDbHelper.GEOFENCEPOLYLINES_TABLE_NAME, geofenceIdWhereClause, selectionArgs);
+                rowsDeleted = db.delete(GeofencesDbHelper.POLYLINES_TABLE_NAME, geofenceIdWhereClause, selectionArgs);
+                break;
+            case (POLYGONS_PATH_TOKEN):
+                geofenceIdWhereClause = GeofencesDbHelper.POLYGONS_COL_ID + "=" + uri.getLastPathSegment();
+                rowsDeleted = db.delete(GeofencesDbHelper.POLYGONS_TABLE_NAME, selection, selectionArgs);
+                break;
+            case (POLYGONS_PATH_FOR_ID_TOKEN):
+                geofenceIdWhereClause = GeofencesDbHelper.POLYGONS_COL_ID + "=" + uri.getLastPathSegment();
+                if (!TextUtils.isEmpty(selection))
+                    geofenceIdWhereClause += " AND " + selection;
+                rowsDeleted = db.delete(GeofencesDbHelper.POLYGONS_TABLE_NAME, geofenceIdWhereClause, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
