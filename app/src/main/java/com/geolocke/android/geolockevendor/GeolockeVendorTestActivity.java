@@ -1,9 +1,12 @@
 package com.geolocke.android.geolockevendor;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.geolocke.android.geolockevendor.circulargeofence.CircularGeofenceTestActivity;
+import com.geolocke.android.geolockevendor.polygonalgeofence.PolygonalGeofenceTestActivity;
 
 public class GeolockeVendorTestActivity extends AppCompatActivity {
     Intent mIntent;

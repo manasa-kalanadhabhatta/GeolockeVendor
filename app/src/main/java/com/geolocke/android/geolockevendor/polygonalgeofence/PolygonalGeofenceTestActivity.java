@@ -1,4 +1,4 @@
-package com.geolocke.android.geolockevendor;
+package com.geolocke.android.geolockevendor.polygonalgeofence;
 
 import android.content.ContentValues;
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.geolocke.android.geolockevendor.R;
 import com.geolocke.android.vendorsdk.beans.Geofence;
 import com.geolocke.android.vendorsdk.beans.Polygon;
 import com.geolocke.android.vendorsdk.beans.Polyline;
@@ -155,7 +156,7 @@ public class PolygonalGeofenceTestActivity extends FragmentActivity implements O
             mPolygon = new Polygon(mPolylineArrayList);
             mGeofence = new Geofence(mPolygon);
 
-            Fragment fragment = new GeofenceOptionsFragment();
+            Fragment fragment = new PolygonalGeofenceOptionsFragment();
             mFragmentTransaction = mFragmentManager.beginTransaction();
             mFragmentTransaction.replace(R.id.fragmentLayout,fragment).commit();
         }catch (IllegalArgumentException e){

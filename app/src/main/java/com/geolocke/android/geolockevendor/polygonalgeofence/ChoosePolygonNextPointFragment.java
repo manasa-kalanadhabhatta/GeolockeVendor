@@ -1,4 +1,4 @@
- package com.geolocke.android.geolockevendor;
+ package com.geolocke.android.geolockevendor.polygonalgeofence;
 
 
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.geolocke.android.geolockevendor.R;
 
 
  public class ChoosePolygonNextPointFragment extends Fragment {

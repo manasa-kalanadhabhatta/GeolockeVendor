@@ -1,4 +1,4 @@
-package com.geolocke.android.geolockevendor;
+package com.geolocke.android.geolockevendor.circulargeofence;
 
 import android.content.ContentValues;
 import android.net.Uri;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.geolocke.android.geolockevendor.R;
 import com.geolocke.android.vendorsdk.beans.Circle;
 import com.geolocke.android.vendorsdk.beans.Geofence;
 import com.geolocke.android.vendorsdk.contentprovider.GeofencesContract;
@@ -120,7 +121,7 @@ public class CircularGeofenceTestActivity extends FragmentActivity implements On
         mCircle = new Circle(mCentre.latitude, mCentre.longitude, mRadius);
         mGeofence = new Geofence(mCircle);
 
-        Fragment fragment = new GeofenceOptionsFragment();
+        Fragment fragment = new CircularGeofenceOptionsFragment();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.fragmentLayout,fragment).commit();
     }

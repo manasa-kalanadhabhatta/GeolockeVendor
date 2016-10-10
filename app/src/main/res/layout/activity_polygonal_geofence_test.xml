@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:map="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent">
@@ -9,7 +8,7 @@
               android:name="com.google.android.gms.maps.SupportMapFragment"
               android:layout_width="match_parent"
               android:layout_height="500dp"
-              tools:context="com.geolocke.android.geolockevendor.PolygonalGeofenceTestActivity"
+              tools:context=".polygonalgeofence.PolygonalGeofenceTestActivity"
               android:layout_alignParentTop="true"
               android:layout_alignParentStart="true"/>
 

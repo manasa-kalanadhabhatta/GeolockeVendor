@@ -1,4 +1,4 @@
-package com.geolocke.android.geolockevendor;
+package com.geolocke.android.geolockevendor.polygonalgeofence;
 
 
 import android.os.Bundle;
@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.geolocke.android.geolockevendor.R;
 
-public class ConfirmPolygonFragment extends Fragment {
-    public ConfirmPolygonFragment() {
+
+public class ChoosePolygonStartPointFragment extends Fragment {
+
+    public ChoosePolygonStartPointFragment() {
         // Required empty public constructor
     }
 
@@ -17,7 +20,7 @@ public class ConfirmPolygonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_confirm_polygon, container, false);
+        return inflater.inflate(R.layout.fragment_choose_polygon_start_point, container, false);
     }
 
 }
