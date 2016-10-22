@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.geolocke.android.geolockevendor.circulargeofence.CircularGeofenceTestActivity;
+import com.geolocke.android.geolockevendor.contentproviderdemo.ContentProviderDemoActivity;
 import com.geolocke.android.geolockevendor.polygonalgeofence.PolygonalGeofenceTestActivity;
 
 public class GeolockeVendorTestActivity extends AppCompatActivity {
@@ -23,6 +24,11 @@ public class GeolockeVendorTestActivity extends AppCompatActivity {
 
     public void selectPolygonalGeofenceTest(View pView){
         mIntent = new Intent(this,PolygonalGeofenceTestActivity.class);
+        startActivity(mIntent);
+    }
+
+    public void selectContentProviderDemo(View pView){
+        mIntent = new Intent(this,ContentProviderDemoActivity.class);
         startActivity(mIntent);
     }
 }

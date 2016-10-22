@@ -38,4 +38,13 @@
         android:layout_below="@+id/circularGeofenceTestButton"
         android:layout_centerHorizontal="true"
         android:onClick="selectPolygonalGeofenceTest"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ContentProvider Demo Activity"
+        android:id="@+id/contentProviderDemoButton"
+        android:layout_below="@+id/polygonalGeofenceTestButton"
+        android:layout_centerHorizontal="true"
+        android:onClick="selectContentProviderDemo"/>
 </RelativeLayout>
