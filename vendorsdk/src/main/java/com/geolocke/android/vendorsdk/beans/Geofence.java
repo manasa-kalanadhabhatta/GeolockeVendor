@@ -14,14 +14,16 @@ public class Geofence {
     private String mType;
     private Shape mFence;
     private ArrayList<Shape> mHoleArrayList;
+    private String mName;
 
-    public Geofence(Shape pFence){
+    public Geofence(Shape pFence, String pName){
         mGeofenceId = System.currentTimeMillis();
         pFence.setGeofenceId(mGeofenceId);
         pFence.setType(Shape.TYPE_FENCE);
         mType = pFence.getShapeType();
         mFence = pFence;
         mHoleArrayList = new ArrayList<Shape>();
+        mName = pName;
     }
 
     public Geofence addHole(Shape pHole){
@@ -56,8 +58,13 @@ public class Geofence {
         return true;
     }
 
+    public String getName() {
+        return mName;
+    }
+
     public ContentValues getContentValues(){
         ContentValues contentValues = new ContentValues();
+        contentValues.put(GeofencesDbHelper.GEOFENCES_COL_GEOFENCE_NAME, this.getName());
         contentValues.put(GeofencesDbHelper.GEOFENCES_COL_FENCE_TYPE, this.getType());
         contentValues.put(GeofencesDbHelper.GEOFENCES_COL_IS_COMPLEX, this.isComplex());
         return contentValues;

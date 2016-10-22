@@ -33,6 +33,7 @@ public class ContentProviderDemoActivity extends AppCompatActivity {
     public void loadGeofences(View pView){
         String[] geofencesListColumns = {
                 GeofencesDbHelper.GEOFENCES_COL_ID,
+                GeofencesDbHelper.GEOFENCES_COL_GEOFENCE_NAME,
                 GeofencesDbHelper.GEOFENCES_COL_FENCE_TYPE,
                 GeofencesDbHelper.GEOFENCES_COL_IS_COMPLEX
         };
@@ -40,7 +41,7 @@ public class ContentProviderDemoActivity extends AppCompatActivity {
         mProjection = geofencesListColumns;
         Cursor cursor = getContentResolver().query(GeofencesContract.GEOFENCES_CONTENT_URI,mProjection,mSelectionClause,null,null);
 
-        int[] geofenceListItems = {R.id.idView, R.id.fenceTypeView, R.id.isComplexView};
+        int[] geofenceListItems = {R.id.idView, R.id.nameView, R.id.fenceTypeView, R.id.isComplexView};
 
         mCursorAdapter = new SimpleCursorAdapter(getApplicationContext(),R.layout.fragment_geofences_list_item,cursor,geofencesListColumns,geofenceListItems,0);
         mListView.setAdapter(mCursorAdapter);

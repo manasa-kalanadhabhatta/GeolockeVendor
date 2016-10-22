@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.geolocke.android.geolockevendor.R;
@@ -118,8 +119,11 @@ public class CircularGeofenceTestActivity extends FragmentActivity implements On
     }
 
     public void createCircularGeofence (View pView){
+        EditText editText = (EditText) findViewById(R.id.circleNameTextBox);
+        String name = editText.getText().toString();
+
         mCircle = new Circle(mCentre.latitude, mCentre.longitude, mRadius);
-        mGeofence = new Geofence(mCircle);
+        mGeofence = new Geofence(mCircle, name);
 
         Fragment fragment = new CircularGeofenceOptionsFragment();
         mFragmentTransaction = mFragmentManager.beginTransaction();

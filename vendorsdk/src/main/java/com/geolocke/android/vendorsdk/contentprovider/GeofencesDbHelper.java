@@ -22,6 +22,7 @@ public class GeofencesDbHelper extends SQLiteOpenHelper {
 
     //definitions for 'geofences' table
     public static final String GEOFENCES_COL_ID =  "_id";
+    public static final String GEOFENCES_COL_GEOFENCE_NAME = "geofence_name";
     public static final String GEOFENCES_COL_FENCE_TYPE =  "fence_type";
     public static final String GEOFENCES_COL_IS_COMPLEX = "is_complex";
 
@@ -51,6 +52,7 @@ public class GeofencesDbHelper extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_GEOFENCES = "create table "
             + GEOFENCES_TABLE_NAME  + "(" +
             GEOFENCES_COL_ID + " integer   primary key autoincrement, " +
+            GEOFENCES_COL_GEOFENCE_NAME + " text not null, " +
             GEOFENCES_COL_FENCE_TYPE + " text not null, " +
             GEOFENCES_COL_IS_COMPLEX + " text not null " +
             ");";

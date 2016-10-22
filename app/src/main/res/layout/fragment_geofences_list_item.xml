@@ -28,6 +28,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
+        android:id="@+id/nameView"
+        android:layout_span="1"
+        android:layout_weight="1"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"/>
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
         android:id="@+id/fenceTypeView"
         android:layout_span="1"
         android:layout_weight="1"

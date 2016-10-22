@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.geolocke.android.geolockevendor.R;
@@ -153,8 +154,11 @@ public class PolygonalGeofenceTestActivity extends FragmentActivity implements O
 
     public void createPolygonalGeofence(View pView){
         try{
+            EditText editText = (EditText) findViewById(R.id.polygonNameTextBox);
+            String name = editText.getText().toString();
+
             mPolygon = new Polygon(mPolylineArrayList);
-            mGeofence = new Geofence(mPolygon);
+            mGeofence = new Geofence(mPolygon, name);
 
             Fragment fragment = new PolygonalGeofenceOptionsFragment();
             mFragmentTransaction = mFragmentManager.beginTransaction();
