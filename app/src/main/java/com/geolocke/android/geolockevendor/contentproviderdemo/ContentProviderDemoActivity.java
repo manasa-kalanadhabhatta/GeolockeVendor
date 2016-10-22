@@ -66,10 +66,37 @@ public class ContentProviderDemoActivity extends AppCompatActivity {
     }
 
     public void loadPolygons(View pView){
+        String[] polygonsListColumns = {
+                GeofencesDbHelper.POLYGONS_COL_ID,
+                GeofencesDbHelper.POLYGONS_COL_POLYGON_TYPE,
+                GeofencesDbHelper.POLYGONS_COL_GEOFENCE_ID
+        };
 
+        mProjection = polygonsListColumns;
+        Cursor cursor = getContentResolver().query(GeofencesContract.POLYGONS_CONTENT_URI,mProjection,mSelectionClause,null,null);
+
+        int[] polygonsListItems = {R.id.polygonsColId, R.id.polygonsColPolygonType, R.id.polygonsColGeofenceId};
+
+        mCursorAdapter = new SimpleCursorAdapter(getApplicationContext(),R.layout.fragment_polygons_list_item,cursor,polygonsListColumns,polygonsListItems,0);
+        mListView.setAdapter(mCursorAdapter);
     }
 
     public void loadPolylines(View pView){
+        String[] polylinesListColumns = {
+                GeofencesDbHelper.POLYLINES_COL_ID,
+                GeofencesDbHelper.POLYLINES_COL_LATITUDE_POINT_ONE,
+                GeofencesDbHelper.POLYLINES_COL_LONGITUDE_POINT_ONE,
+                GeofencesDbHelper.POLYLINES_COL_LATITUDE_POINT_TWO,
+                GeofencesDbHelper.POLYLINES_COL_LONGITUDE_POINT_TWO,
+                GeofencesDbHelper.POLYLINES_COL_POLYGON_ID
+        };
 
+        mProjection = polylinesListColumns;
+        Cursor cursor = getContentResolver().query(GeofencesContract.POLYLINES_CONTENT_URI,mProjection,mSelectionClause,null,null);
+
+        int[] polylinesListItems = {R.id.polylinesColId, R.id.polylinesColLatPointOne, R.id.polylinesColLngPointOne, R.id.polylinesColLatPointTwo, R.id.polylinesColLngPointTwo, R.id.polylinesColPolygonId};
+
+        mCursorAdapter = new SimpleCursorAdapter(getApplicationContext(),R.layout.fragment_polylines_list_item,cursor,polylinesListColumns,polylinesListItems,0);
+        mListView.setAdapter(mCursorAdapter);
     }
 }

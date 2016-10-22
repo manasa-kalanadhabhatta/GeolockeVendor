@@ -51,7 +51,9 @@ public class Geofence {
     }
 
     public boolean isComplex(){
-        return mHoleArrayList.isEmpty();
+        if(mHoleArrayList.isEmpty())
+            return false;
+        return true;
     }
 
     public ContentValues getContentValues(){

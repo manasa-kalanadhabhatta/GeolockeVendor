@@ -2,21 +2,19 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.geolocke.android.geolockevendor.contentproviderdemo.CirclesListItemFragment">
+             tools:context="com.geolocke.android.geolockevendor.contentproviderdemo.PolylinesListItemFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/circlesColId"
+            android:id="@+id/polylinesColId"
             android:layout_span="1"
             android:layout_weight="1"
             android:textColor="@android:color/black"
@@ -24,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/circlesColCentreLat"
+            android:id="@+id/polylinesColLatPointOne"
             android:layout_span="1"
             android:layout_weight="1"
             android:textColor="@android:color/black"
@@ -32,7 +30,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/circlesColCentreLng"
+            android:id="@+id/polylinesColLngPointOne"
             android:layout_span="1"
             android:layout_weight="1"
             android:textColor="@android:color/black"
@@ -40,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/circlesColRadius"
+            android:id="@+id/polylinesColLatPointTwo"
             android:layout_span="1"
             android:layout_weight="1"
             android:textColor="@android:color/black"
@@ -48,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/circlesColCircleType"
+            android:id="@+id/polylinesColLngPointTwo"
             android:layout_span="1"
             android:layout_weight="1"
             android:textColor="@android:color/black"
@@ -56,7 +54,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/circlesColGeofenceId"
+            android:id="@+id/polylinesColPolygonId"
             android:layout_span="1"
             android:layout_weight="1"
             android:textColor="@android:color/black"
